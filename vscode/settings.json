@@ -1,0 +1,138 @@
+/*
+# vscode settings.json
+
+## vscode shortcuts:
+
+- quick menu: [CMD]+[SHIFT]+[P]
+- command pallet (or file search): [CMD]+[P]
+- open integrated terminal: [CTRL]+[SHIFT]+[`]
+- build (if you have build task set up, such as cmake config): [CMD]+[SHIFT]+[B]
+- reload window (From quick menu): [CMD]+[SHIFT]+[P], search for "reload window"
+  (useful when trying to get new settings and plugins to take effect)
+- install extensions: [CMD]+[P] to open command pallet, then type "ext install <extension_id>" [ENTER] to install
+
+
+## User config
+
+Apparently not in ~/.vscode. To find/edit user settings.json:
+
+[CMD]+[SHIFT]+[P] (open quick menu), search "user settings json"
+
+Also available - workspace-specific settings or overrides in ${workspaceFolder}/.vscode/settings.json
+
+*/
+{
+    // [CTRL]+[SHIFT]+[`] to open integrated terminals in vscode
+    // for apple M1/M2 - define terminal profile that launches with rosetta...
+    "terminal.integrated.profiles.osx": {
+        "rosetta": {
+            "path": "arch",
+            "args": [
+                "-x86_64",
+                "zsh",
+                "-l"
+            ],
+            "color": "terminal.ansiGreen"
+        }
+    },
+    // ...and make it the default
+    "terminal.integrated.defaultProfile.osx": "rosetta",
+    //
+    // automatic whitespace and line-ending fixes on save:
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "editor.renderFinalNewline": "dimmed",
+    //
+    // optional theme and editor style stuff:
+    "workbench.colorTheme": "Default Dark+",
+    // make whitespace chars visible as little dots
+    "editor.renderWhitespace": "all",
+    "workbench.colorCustomizations": {
+        "editorWhitespace.foreground": "#00FFFF40" // custom color for the dots
+    },
+    "editor.minimap.autohide": true, // little more screen space
+    /*
+
+    ########
+    Extensions
+
+    # Nice spell-checker for comments, documentation (underlines errors w/ blue squiggle)
+    ext install streetsidesoftware.code-spell-checker
+
+    python intellisense, linting, autocompletion, etc...
+    ext install ms-python.python
+    ext install ms-python.vscode-pylance
+
+    IMPORTANT - select python interpreter for your project (e.g. venv path):
+    [CMD]+[SHIFT]+[P], search for "select python interpreter", browse to venv
+
+    */
+    // optional python inlay-hints:
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "python.analysis.inlayHints.callArgumentNames": "partial",
+    // optional pytest specific inlays:
+    "python.analysis.inlayHints.pytestParameters": true,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.enablePytestSupport": true,
+    /*
+    Python notes
+    - many other python extensions will either come with their own env, or use yours if specified (e.g. flake8 and black) and will respect a project's config files
+    - Opening integrated terminals should automatically activate the venv
+      - BUT, for some reason, the *first* terminal of a new vscode window might not
+
+    python flake8 error highlights on save
+    ext install ms-python.flake8
+
+    python auto-formatting on save
+    ext install ms-python.black-formatter
+    ext install ms-python.isort
+    */
+    "[python]": { // vscode settings, applied just to a certain language with []
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+    },
+    //
+    // automatic C doxygen doc comment generation ("/**[ENTER]" above a function, object, etc)
+    // ext install cschlosser.doxdocgen
+    "doxdocgen.generic.includeTypeAtReturn": false,
+    //
+    // automatic python docstring generation:
+    // ext install njpwerner.autodocstring
+    "autoDocstring.docstringFormat": "sphinx-notypes",
+    //
+    // gitlens - get history and PR link when hovering over lines
+    // ext install eamodio.gitlens
+    "gitlens.codeLens.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    // markdown linting + intellisense
+    // ext install DavidAnson.vscode-markdownlint
+    //
+    // indent-rainbow, for colorized indent line markers
+    // ext install oderwat.indent-rainbow
+    "indentRainbow.indicatorStyle": "light",
+    "indentRainbow.lightIndicatorStyleLineWidth": 1,
+    "indentRainbow.colors": [
+        "rgba(255,255,64,0.3)",
+        "rgba(127,255,127,0.3)",
+        "rgba(255,127,255,0.3)",
+        "rgba(79,236,236,0.3)"
+    ],
+}
+/*
+Other tips
+
+To use vscode as interactive git editor (for commit/rebase messages, etc):
+
+- [CMD]+[SHIFT]+[P], search for "Shell Command: Install 'Code' command in path"
+- Then in a terminal, run:
+    git config --global core.editor "code --wait"
+
+Now you can also use the "code <path>" command in terminals to launch vscode.
+
+*/
